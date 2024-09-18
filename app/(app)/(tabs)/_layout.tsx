@@ -1,18 +1,21 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Button } from 'react-native';
+import { useSession } from '@/context';
+import { TabBarIcon } from '@/components/TabBarIcon';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  const { signOut } = useSession();
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
+        headerShown: true,
+        headerRight: () => <Button onPress={() => signOut()} title="Sign out" />,
       }}>
       <Tabs.Screen
         name="index"
@@ -23,7 +26,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="explore"
         options={{
           title: 'Explore',
@@ -40,7 +43,7 @@ export default function TabLayout() {
             <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
           ),
         }}
-      />
+      /> */}
     </Tabs>
   );
 }
